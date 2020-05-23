@@ -1,5 +1,33 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Based on the [project](https://medium.com/@beaucarnes/learn-the-mern-stack-by-building-an-exercise-tracker-mern-tutorial-59c13c1237a1) by Beau Carnes
+
+## Dependencies
+
+You may need to run the following command within the `backend` folder if the app is not functioning properly:
+
+`npm install express cors mongoose dotenv` and
+`npm install -g nodemon`
+
+In the root of the application, you may need to run the following command to install Material-UI:
+
+`npm install @material-ui/core`
+
+The command
+
+`npm install react-router-dom`
+
+may also need to be installed, although it is initially not imported into any of the files
+
+
+## Running the app
+
+In order to make the app work locally, you will need to run 
+`nodemon server` 
+inside of the backend folder. This will activate the server, and allow you to connect to your respective DB.
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:
