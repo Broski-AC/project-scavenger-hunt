@@ -4,6 +4,8 @@ Based on the [project](https://medium.com/@beaucarnes/learn-the-mern-stack-by-bu
 
 ## Dependencies
 
+### You should just be able to run npm i  in the root and backend folders, but otherwise these are the individual components downloaded.
+
 You may need to run the following command within the `backend` folder if the app is not functioning properly:
 
 `npm install express cors mongoose dotenv` and
