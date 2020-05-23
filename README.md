@@ -25,6 +25,18 @@ If you wish to use axios, you may need to run
 
 in the root of the project.
 
+For security, you'll need to run
+
+`npm install bcryptjs`
+
+and 
+
+`npm install jsonwebtoken` 
+
+and 
+
+`npm install config`
+
 
 ## Running the app
 
