@@ -17,7 +17,13 @@ The command
 
 `npm install react-router-dom`
 
-may also need to be installed, although it is initially not imported into any of the files
+may also need to be installed, although it is initially not imported into any of the files.
+
+If you wish to use axios, you may need to run 
+
+`npm install axios` 
+
+in the root of the project.
 
 
 ## Running the app
