@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TaskList from './components/TaskList';
 import './App.css';
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -7,6 +7,11 @@ import UserRegistration from "./components/userRegistration.component";
 import UserLogin from "./components/userLogin.component";
 
 function App() {
+
+  // Ideally would use hooks to set the name within the log-in feature
+  const [name, setName] = React.useState('');
+  const [logged, setLogged] = useState(false);
+
   return (
     <Router>
       <div className="container">

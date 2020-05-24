@@ -56,7 +56,7 @@ router.post('/login', (req, res) => {
         })
 });
 
-router.get('/user', auth, (req, res) => {
+router.get('/user', (req, res) => {
     try {
         const user = User.findById(req.user.id).select('-password');
         if (!user) throw Error('User Does not exist');

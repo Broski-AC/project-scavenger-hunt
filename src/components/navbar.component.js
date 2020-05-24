@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+//import UserLog from './userLog.component';
 
 export default class Navbar extends Component {
 

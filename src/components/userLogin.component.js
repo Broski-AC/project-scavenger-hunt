@@ -37,7 +37,11 @@ export default class UserLogin extends Component{
         };
 
         axios.post('http://localhost:5000/api/auth/login', userLogin)
-            .then(res => console.log(res))
+            .then(res => {
+                console.log(res.data.user.name);
+                // Redirect to a new page
+                this.props.history.push('/QuestEntry');
+            })
             .catch(error => window.alert("Unrecognized or unauthorized user. Please try again"))
     }
     
