@@ -29,17 +29,16 @@ export default class UserLogin extends Component{
     }
     
     onSubmit(e) {
-
         e.preventDefault();
     
         const userLogin = {
             email: this.state.email,
             password: this.state.password
         };
-    
+
         axios.post('http://localhost:5000/api/auth/login', userLogin)
-            .then(res => console.log(res.data));
-    
+            .then(res => console.log(res))
+            .catch(error => window.alert("Unrecognized or unauthorized user. Please try again"))
     }
     
         render() {
