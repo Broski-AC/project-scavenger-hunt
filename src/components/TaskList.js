@@ -18,6 +18,7 @@ export default class CheckboxList extends Component{
         this.handleToggle = this.handleToggle.bind(this);
         this.createEntry = this.createEntry.bind(this);
         this.updateQuest = this.updateQuest.bind(this);
+        this.pullData = this.pullData.bind(this);
         this.state = { //all data stored in state
             itemList: ['Flower task', 'Bird task', 'Tree task', 'Mammal task', 'Other task', 'Otter task'], //delete if pulled from database
             tasks: [],
@@ -26,10 +27,13 @@ export default class CheckboxList extends Component{
     }
 
     componentDidMount(){
-        console.log('mounted');
+        this.pullData();
+    }
+
+    pullData()
+    {
         axios.get('http://localhost:5000/quests/') 
         .then(response=>{      
-            console.log('promise');
             if(response.data.length === 0) //Make new elements if list is empty
             {
                 console.log('makin stuff');
@@ -53,7 +57,7 @@ export default class CheckboxList extends Component{
                     selectedTask: null
                 }, ()=> {console.log(this.state.checked)})
             }
-        })
+        }) 
     }
 
     createEntry(newDescription)
@@ -93,9 +97,8 @@ export default class CheckboxList extends Component{
         );
         //Save back to database
         this.updateQuest(id, value, newVal);
-        console.log("id is " + id);
-        console.log("value is " + value);
-        console.log("Index is " + currentIndex);
+
+        console.log("value passed is " + newVal);
         console.log("Enabled val is " + this.state.checked[currentIndex]);
     }
 
@@ -107,7 +110,7 @@ export default class CheckboxList extends Component{
             isDone: newVal   
         }
         axios.post('http://localhost:5000/quests/update/' + id, newQuest)
-        .then(res => console.log(res.data));
+        .then(res =>  this.pullData());
 
     }
 
