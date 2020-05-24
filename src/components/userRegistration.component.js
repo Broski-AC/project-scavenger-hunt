@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+function Message(props){
+    if (props.isLoggedIn) {
+    }
+    else {
+        return (
+            <p> You have successfully registered! 
+                Please log-in to the system now </p>
+        );
+    }
+}
+
 export default class UserRegistration extends Component{
 
 constructor(props){
@@ -14,7 +25,8 @@ constructor(props){
     this.state = {
         name: '',
         email: '',
-        password: ''
+        password: '',
+        isLoggedIn: false
     }
 }
 
@@ -51,7 +63,8 @@ onSubmit(e) {
     this.setState({
         name: '',
         email: '',
-        password: ''
+        password: '',
+        isLoggedIn: true
     });
 }
 
@@ -86,6 +99,11 @@ onSubmit(e) {
                 <div className="form-group">
                 <input type="submit" value="Create User" className="btn btn-primary" />
                 </div>
+
+                {/* Gives capability for conditional rendering */}
+                {
+                    (this.state.isLoggedIn) ? (<Message />) : ""
+                }
             </form>
             </div>
         )
