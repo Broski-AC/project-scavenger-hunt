@@ -10,10 +10,12 @@ router.route('/').get((req, res) => {
 router.route('/add').post((req, res) => {
   const description = req.body.description;
   const isDone = Boolean(req.body.isDone);
+  const pictureURL = req.body.pictureURL;
 
   const newQuestEntry = new QuestEntry({
     description,
     isDone,
+    pictureURL
   });
 
   newQuestEntry.save()
@@ -38,6 +40,7 @@ router.route('/:id').get((req, res) => {
       .then(quest => {
         quest.description = req.body.description;
         quest.isDone = Boolean(req.body.isDone);
+        quest.pictureURL = req.body.pictureURL;
   
         quest.save()
           .then(() => res.json('Quest updated!'))
