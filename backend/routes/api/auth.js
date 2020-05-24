@@ -9,15 +9,15 @@ const auth = require('../../../middleware/auth');
 const User = require('../../models/user');
 
 // @route POST api/auth
-// @desc Authenticate the user
+// @desc Auth the user
 // @access Public
 
-router.post('/', (req, res) => {
+router.post('/login', (req, res) => {
     const { email, password } = req.body;
 
     // Simple validation
-    if ( !email || !password ) {
-        return res.status(400).json({ msg: 'Please enter values into all the fields'});
+    if ( !email || !password) {
+        return res.status(400).json({ msg: 'Please enter values into all the fields - auth'});
     }
 
     // Check for existing user
@@ -25,11 +25,12 @@ router.post('/', (req, res) => {
         .then(user => {
             if (!user) return res.status(400).json({ msg: 'User does not exist' });
 
+           
             // Validate password
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
-                    if (!isMatch) return res.status(400).json({ msg: 'Invalid password' })
-                
+                    if(!isMatch) return res.status(400).json({ msg: 'Invalid credentials'});
+
                     jwt.sign(
                         {
                             id: user.id
@@ -51,18 +52,19 @@ router.post('/', (req, res) => {
                             });
                         }
                     )
-                    
                 })
         })
 });
 
-// @route GET api/auth/user
-// @desc Get user data
-// @access Private
 router.get('/user', auth, (req, res) => {
-    User.findById(req.user.id)
-        .select('-password')
-        .then(user => res.json(user));
+    try {
+        const user = User.findById(req.user.id).select('-password');
+        if (!user) throw Error('User Does not exist');
+        res.json(user);
+    }
+    catch (e) {
+        res.status(400).json({ msg: e.message});
+    }
 });
 
 module.exports = router;

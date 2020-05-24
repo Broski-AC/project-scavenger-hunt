@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function Message(props){
@@ -7,7 +8,7 @@ function Message(props){
     else {
         return (
             <p> You have successfully registered! 
-                Please log-in to the system now </p>
+                Please <Link to="/api/auth/login" className="LogInLink">log-in</Link> to the system now </p>
         );
     }
 }
