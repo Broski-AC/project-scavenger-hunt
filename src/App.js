@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navbar from "./components/navbar.component";
 import UserRegistration from "./components/userRegistration.component";
 import UserLogin from "./components/userLogin.component";
+import 'typeface-roboto';
 
 function App() {
 

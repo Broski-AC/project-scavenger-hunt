@@ -11,6 +11,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import axios from 'axios';
+import 'typeface-roboto';
 
 import flowerOne from "../Badges/Flower 1.png";
 import flowerTwo from "../Badges/Flower 2.png";

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import 'typeface-roboto';
 
 function Message(props){
     if (props.isLoggedIn) {
