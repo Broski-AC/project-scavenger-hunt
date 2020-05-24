@@ -26,7 +26,7 @@ import mammalTwo from "../Badges/Mammal 2.png";
 import mammalThree from "../Badges/Mammal 3.png";
 
 import treeOne from "../Badges/Tree 1.png";
-import treeTwo from "../Badges/Tree 2 .png";
+import treeTwo from "../Badges/Tree 2.png";
 import treeThree from "../Badges/Tree 3.png";
 
 import AmphOne from "../Badges/Amphtile 1.png";
@@ -48,19 +48,24 @@ export default class CheckboxList extends Component{
         this.pullData = this.pullData.bind(this);
         this.state = { //all data stored in state
             itemList: ['Find a white flower', 'Find a flower as tall as you', 'Find a flower with more than 5 petals and 2 leaves',
-            //'Find a bird on the water', 'Find a bird perched in a tree', 'Find two birds together',
-            //'Find an evergreen tree', 'Find a young sapling', 'Find a tree with no leaves',
-            //'Find a two-legged mammal outdoors', 'Find a wild mammal feeding', 'Find a mammal near as small as your hand',
-            //'Find a snake in the sun', 'Find a warty toad', 'Find a turtle crossing the road',
-            //'Find a butterfly resting', 'Find a carpenter ant', 'Find an insect scuttling across the ground',
+            'Find a bird on the water', 'Find a bird perched in a tree', 'Find two birds together',
+            'Find an evergreen tree', 'Find a young sapling', 'Find a tree with no leaves',
+            'Find a two-legged mammal outdoors', 'Find a wild mammal feeding', 'Find a mammal near as small as your hand',
+            'Find a snake in the sun', 'Find a warty toad', 'Find a turtle crossing the road',
+            'Find a butterfly resting', 'Find a carpenter ant', 'Find an insect scuttling across the ground',
             ], //delete if pulled from database
             urls: [flowerOne, flowerTwo, flowerThree, 
-                //birdOne, birdTwo, birdThree, 
-                //mammalOne, mammalTwo, mammalThree, 
-                //treeOne, treeTwo, treeThree, 
-                //AmphOne, AmphTwo, AmphThree, 
-                //InsectOne, InsectTwo, InsectThree],
-            ],
+                birdOne, birdTwo, birdThree, 
+                mammalOne, mammalTwo, mammalThree, 
+                treeOne, treeTwo, treeThree, 
+                AmphOne, AmphTwo, AmphThree, 
+                InsectOne, InsectTwo, InsectThree],
+            urls2: ["../Badges/Flower 1.png", "../Badges/Flower 2.png", "../Badges/Flower 3.png", 
+                "../Badges/Bird 1.png", "../Badges/Bird 2.png", "../Badges/Bird 3.png", 
+                "../Badges/Mammal 1.png", "../Badges/Mammal 2.png", "../Badges/Mammal 3.png", 
+                "../Badges/tree 1.png", "../Badges/tree 2.png", "../Badges/tree 3.png",
+                "../Badges/Amphtile 1.png", "../Badges/Amphtile 2.png", "../Badges/Amphtile 3.png", 
+                "../Badges/Insect 1.png", "../Badges/Insect 2.png", "../Badges/Insect 3.png"],
             tasks: [],
             completedTasks: [],
             checked: [], //array to store button values
@@ -114,15 +119,15 @@ export default class CheckboxList extends Component{
         const quest = 
         {
             description : newDescription,
+            isDone : false,
             pictureURL: newImage,
-            isDone : false
         }
 
         axios.post('http://localhost:5000/quests/add/', quest)
         .then(res => console.log(res.data));
     }
 
-    handleToggle = (value, id) => () => {
+    handleToggle = (value, id, url) => () => {
         const currentIndex = this.state.itemList.indexOf(value);
         const newChecked = [...this.state.checked];
         var newVal;
@@ -146,18 +151,19 @@ export default class CheckboxList extends Component{
         }
         );
         //Save back to database
-        this.updateQuest(id, value, newVal);
+        this.updateQuest(id, value, url, newVal);
 
         console.log("value passed is " + newVal);
         console.log("Enabled val is " + this.state.checked[currentIndex]);
     }
 
-    updateQuest(id, desc, newVal)
+    updateQuest(id, desc, url, newVal)
     {
         const newQuest = 
         {
             description: desc,
-            isDone: newVal   
+            isDone: newVal,
+            pictureURL: url   
         }
         axios.post('http://localhost:5000/quests/update/' + id, newQuest)
         .then(res =>  this.pullData());
@@ -172,7 +178,7 @@ export default class CheckboxList extends Component{
                 const labelId = `checkbox-list-label-${value.description}`;
 
                 return (
-                <ListItem key={value.description} role={undefined} dense button onClick={this.handleToggle(value.description, value._id)}>
+                <ListItem key={value.description} role={undefined} dense button onClick={this.handleToggle(value.description, value._id, value.pictureURL)}>
                     <ListItemIcon>
                     <Checkbox
                         edge="start"
