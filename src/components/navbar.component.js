@@ -6,7 +6,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
 export default class Navbar extends Component {
 
@@ -14,35 +13,27 @@ export default class Navbar extends Component {
 
     return (
 
-      <Grid
-        container direction="row"
-        justify="space-around"
-        alignItems="center"
+      <div
       >
-      <AppBar position = "static">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-        <Grid item>
-        <Typography variant="h6" color="textSecondary" > 
-          <Link to="/" style={{color: "white"}}>Scavenger Scouts</Link>
-        </Typography>
-        </Grid>
-        <Grid item>
-        <Typography variant="h6" color="initial">
-          <Link to="/api/users" style={{color: "white"}}>Register User</Link>
-        </Typography>
-        </Grid>
-        <Typography variant="h6" color="initial">
-          <Link to="/api/auth/login" style={{color: "white"}}>LogIn</Link>
-        </Typography>
-        <Typography variant="h6" color="initial">
-          <Link to="/QuestEntry" style={{color: "white"}}>Task List</Link>
-        </Typography>
-        </Toolbar>
-      </AppBar>
-      </Grid>
+        <AppBar position = "static">
+
+              <Typography variant="h6" color="textSecondary" align="center"> 
+                <Link to="/" style={{color: "white"}}>Scavenger Scouts</Link>
+              </Typography>
+
+
+            <Typography variant="h6" color="initial">
+              <Link to="/api/users" style={{color: "white"}}>Register User</Link>
+            </Typography>
+  
+            <Typography variant="h6" color="initial">
+              <Link to="/api/auth/login" style={{color: "white"}}>LogIn</Link>
+            </Typography>
+            <Typography variant="h6" color="initial">
+              <Link to="/QuestEntry" style={{color: "white"}}>Task List</Link>
+            </Typography>
+        </AppBar>
+      </div>
 
       // <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
       //   <Link to="/" className="navbar-brand">Scavengar</Link>
