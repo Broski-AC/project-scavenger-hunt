@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -17,9 +17,10 @@ export default class CheckboxList extends Component{
         super(props); //needed for every constructor
         this.handleToggle = this.handleToggle.bind(this);
         this.createEntry = this.createEntry.bind(this);
+        this.updateQuest = this.updateQuest.bind(this);
         this.state = { //all data stored in state
             itemList: ['Flower task', 'Bird task', 'Tree task', 'Mammal task', 'Other task', 'Otter task'], //delete if pulled from database
-            boolList: [],
+            tasks: [],
             checked: [], //array to store button values
         }
     }
@@ -29,20 +30,28 @@ export default class CheckboxList extends Component{
         axios.get('http://localhost:5000/quests/') 
         .then(response=>{      
             console.log('promise');
-            if(response.data.length === 0)
+            if(response.data.length === 0) //Make new elements if list is empty
             {
                 console.log('makin stuff');
-                this.state.itemList.array.forEach(element => {
+                this.state.itemList.forEach(element => {
                     this.createEntry(element);
                 });
+                this.setState({        
+                    itemList: response.data.map(quest => quest.description),
+                    checked: response.data.map(quest => quest.isDone),
+                    tasks: response.data,
+                    selectedTask: null
+                })
             }
             else
             {
                 console.log('stuff exists');
                 this.setState({        
                     itemList: response.data.map(quest => quest.description),
-                    boolList: response.data.map(quest => quest.isDone)
-                })
+                    checked: response.data.map(quest => quest.isDone),
+                    tasks: response.data,
+                    selectedTask: null
+                }, ()=> {console.log(this.state.checked)})
             }
         })
     }
@@ -55,45 +64,72 @@ export default class CheckboxList extends Component{
             isDone : false
         }
 
-        axios.post('http://localhost:5000/quest/add', quest)
+        axios.post('http://localhost:5000/quests/add/', quest)
         .then(res => console.log(res.data));
-  
     }
 
-    handleToggle = (value) => () => {
-        const currentIndex = this.state.checked.indexOf(value);
+    handleToggle = (value, id) => () => {
+        const currentIndex = this.state.itemList.indexOf(value);
         const newChecked = [...this.state.checked];
-    
-        if (currentIndex === -1) {
+        var newVal;
+        /*if (currentIndex === -1) {
           newChecked.push(value);
         } else {
           newChecked.splice(currentIndex, 1);
+        }*/
+        if(this.state.checked[currentIndex]===false)
+        {
+            newVal = true;
         }
-    
+        else
+        {
+            newVal=false;
+        }
+        newChecked.splice(currentIndex, 1, newVal);
+
         this.setState({
-            checked: (newChecked)}
+            checked: (newChecked)
+        }
         );
+        //Save back to database
+        this.updateQuest(id, value, newVal);
+        console.log("id is " + id);
+        console.log("value is " + value);
+        console.log("Index is " + currentIndex);
+        console.log("Enabled val is " + this.state.checked[currentIndex]);
+    }
+
+    updateQuest(id, desc, newVal)
+    {
+        const newQuest = 
+        {
+            description: desc,
+            isDone: newVal   
+        }
+        axios.post('http://localhost:5000/quests/update/' + id, newQuest)
+        .then(res => console.log(res.data));
+
     }
 
     render(){
 
         return (
             <List>
-            {this.state.itemList.map((value) => {
-                const labelId = `checkbox-list-label-${value}`; //remove the last bit after testing
+            {this.state.tasks.map(value => {
+                const labelId = `checkbox-list-label-${value.description}`;
 
                 return (
-                <ListItem key={value} role={undefined} dense button onClick={this.handleToggle(value)}>
+                <ListItem key={value.description} role={undefined} dense button onClick={this.handleToggle(value.description, value._id)}>
                     <ListItemIcon>
                     <Checkbox
                         edge="start"
-                        checked={this.state.checked[value]}
+                        checked= {value.isDone}
                         tabIndex={-1}
                         disableRipple
-                        inputProps={{ 'aria-labelledby': labelId }}
+                        inputProps={{ 'aria-labelledby': labelId }}                      
                     />
                     </ListItemIcon>
-                    <ListItemText id={labelId} primary={`${value}`} />
+                    <ListItemText id={labelId} primary={`${value.description}`} />
                     <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="comments">
                     </IconButton>
